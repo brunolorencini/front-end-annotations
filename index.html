@@ -17,6 +17,34 @@
       border-radius: 10px;
       padding: 15px;
     }
+
+    .modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 10px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .modal-content {
+      color: white;
+    }
+
+    .modal button {
+      margin-top: 10px;
+      padding: 5px 10px;
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -25,14 +53,19 @@
     <input v-model="nome" type="text" placeholder="Digite o nome"><br>
     <input v-model="email" type="text" placeholder="Digite o e-mail"><br>
     <br>
-    <button @click="add()">Cadastrar</button>
+    <button @click="cadastrarUsuario">Cadastrar</button>
     <br><br>
-    <div v-for="(user, id) of users" class="user-card">
+    <div v-for="(user, id) of users" :key="id" class="user-card">
       <div class="card-name">Nome: {{ user.nome}}</div>
       <div class="card-email">Email: {{ user.email }}</div>
       <div class="card-cpf">CPF: {{ user.cpf }}</div>
     </div>
-    <br><br>
+    <div v-if="showConfirmationModal" class="modal">
+      <div class="modal-content">
+        <p>Usuário cadastrado com sucesso!</p>
+        <button @click="closeConfirmationModal">Fechar</button>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -47,19 +80,27 @@
         const nome = ref('')
         const cpf = ref('')
         const email = ref('')
+        const showConfirmationModal = ref(false)
 
-        const add = () => {
+        const cadastrarUsuario = () => {
           users.value.push({
             cpf: cpf.value,
             nome: nome.value,
             email: email.value,
           })
+          showConfirmationModal.value = true;
+        }
+
+        const closeConfirmationModal = () => {
+          showConfirmationModal.value = false;
         }
         
         return {
           users,
-          add,
-          nome, cpf, email
+          cadastrarUsuario,
+          closeConfirmationModal,
+          nome, cpf, email,
+          showConfirmationModal
         }
       }
     }).mount('#app')
