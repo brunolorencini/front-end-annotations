@@ -12,13 +12,14 @@
     }
 
     .user-card {
-      border: 1px solid rgb(135, 59, 59);
-      background-color: #bdbbbb;
+      border: 1px solid rgb(1, 1, 1);
+      background-color: #131212;
       border-radius: 10px;
       padding: 15px;
+      margin-bottom: 10px;
     }
 
-    .modal {
+    .modal { 
       position: fixed;
       top: 50%;
       left: 50%;
@@ -89,6 +90,10 @@
             email: email.value,
           })
           showConfirmationModal.value = true;
+          // Limpar os campos do formulário
+          cpf.value = '';
+          nome.value = '';
+          email.value = '';
         }
 
         const closeConfirmationModal = () => {
